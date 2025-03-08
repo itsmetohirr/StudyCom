@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+
+<style>
+    .profile-container{
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+</style>
+
+<h1>{{user.username}}</h1>
+
+<div class="profile-container">
+
+    <div>
+        {% include 'studycom/topics.html' %}
+    </div>
+
+    <div>
+        {% include 'studycom/feed.html' %}
+    </div>
+
+    <div>
+        {% include 'studycom/activity.html' %}
+    </div>
+
+</div>
+
+{% endblock %}

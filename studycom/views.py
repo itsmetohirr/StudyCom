@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Room, Topic, Message
 from .forms import RoomForm
@@ -65,8 +66,9 @@ def home_view(request):
     
     topics = Topic.objects.all()
     room_count = rooms.count()
+    activity_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
 
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'activity_messages': activity_messages}
 
     return render(request, 'studycom/home.html', context)
 
@@ -91,6 +93,15 @@ def room(request, pk):
     context = {'room': room, 'room_messages': room_messages, 'participants': participants}
     return render(request, 'studycom/room.html', context)
 
+
+def user_profile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    user_messages = user.message_set.all()
+    topics = Topic.objects.all()
+
+    context = {'user': user, 'rooms': rooms, 'activity_messages': user_messages, 'topics': topics}
+    return render(request, 'studycom/profile.html', context)
 
 @login_required(login_url='login')
 def create_room(request):
