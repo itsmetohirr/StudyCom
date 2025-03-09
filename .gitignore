@@ -45,3 +45,4 @@ __pycache__/
 *.pyd
 *.db
 *.sqlite3
+db.sqlite3
