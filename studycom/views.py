@@ -15,11 +15,15 @@ def login_view(request):
         return redirect('home')
 
     if request.method == 'POST':
-        email = request.POST.get('email').lower()
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
-        user = authenticate(request, email=email, password=password)
+        print(username)
+        print(password)
+
+        user = authenticate(request, username=username, password=password)
         if user is not None:
+            print('user found')
             login(request, user)
             return redirect('home')
         else:
@@ -181,6 +185,7 @@ def update_user(request):
 
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES, instance=user)
+        print(request.FILES)
         if form.is_valid():
             form.save()
             return redirect('user-profile', pk=user.id)
