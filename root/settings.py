@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     
 ]
 
-AUTH_USER_MODEL = 'studycom.'
+AUTH_USER_MODEL = 'studycom.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
