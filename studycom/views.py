@@ -10,6 +10,7 @@ from .forms import RoomForm, UserForm, MyUserCreationForm
 
 
 def login_view(request):
+    invalid = False
 
     if request.user.is_authenticated:
         return redirect('home')
@@ -27,10 +28,10 @@ def login_view(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'User does not exist')
+            invalid = True
 
 
-    context = {}
+    context = {'invalid': invalid}
     return render(request, 'studycom/login_page.html', context)
 
 
