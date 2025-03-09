@@ -15,7 +15,7 @@ __pycache__/
 db.sqlite3
 
 # Environment variables
-.env
+
 
 # macOS-specific files
 .DS_Store
