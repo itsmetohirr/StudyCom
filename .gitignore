@@ -14,11 +14,6 @@ __pycache__/
 *.DS_Store
 db.sqlite3
 
-# Ignore media and static files
-/media
-/staticfiles
-/static
-
 # Environment variables
 .env
 
