@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from .models import Room, Topic, Message
-from .forms import RoomForm
+from .forms import RoomForm, UserForm
 
 
 def login_view(request):
@@ -64,9 +64,9 @@ def home_view(request):
         Q(description__icontains=q)
         )
     
-    topics = Topic.objects.all()
+    topics = Topic.objects.all()[0:7]
     room_count = rooms.count()
-    activity_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+    activity_messages = Message.objects.filter(Q(room__topic__name__icontains=q))[0:7]
 
     context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'activity_messages': activity_messages}
 
@@ -174,3 +174,32 @@ def delete_message(request, pk):
         return redirect('home')
 
     return render(request, 'studycom/delete.html', {'obj': message})
+
+
+@login_required(login_url='login')
+def update_user(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
+    
+    return render(request, 'studycom/update-user.html', {'form': form})
+
+
+# ---------- Mobil Responsiveness ------------ #
+
+def topics(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    topics = Topic.objects.filter(name__icontains=q)
+    
+    return render(request, 'studycom/topics_mobile.html', {'topics': topics})
+
+
+def activity(request):
+    activity_messages = Message.objects.all()
+
+    return render(request, 'studycom/activity_mobile.html', {'activity_messages': activity_messages})
