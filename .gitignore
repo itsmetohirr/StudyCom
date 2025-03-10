@@ -22,7 +22,7 @@ db.sqlite3
 
 # Ignore virtual environments
 .venv
-
+.env
 # Ignore Docker-related files
 *.env.docker
 __pycache__/
