@@ -91,8 +91,8 @@ DATABASES = {
         'NAME': 'studycom',
         'USER': 'studycom_user',
         'PASSWORD': 'hello5521',
-        'HOST': 'localhost',  # Set to 'localhost' or the address of your PostgreSQL server
-        'PORT': '5432',        # Default PostgreSQL port
+        'HOST': 'localhost',  
+        'PORT': '5432',        
     }
 }
 
