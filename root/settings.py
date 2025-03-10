@@ -135,7 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collected static files (e.g., for production)
+STATIC_ROOT = BASE_DIR / 'static'  # For collected static files (e.g., for production)
 MEDIA_ROOT = BASE_DIR / 'static/images'
 
 # Default primary key field type
