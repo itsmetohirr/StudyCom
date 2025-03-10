@@ -13,8 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Add Server to Known Hosts
-        run: ssh-keyscan -p 22 ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
 
 
       - name: Deploy to Server
@@ -24,8 +24,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/studycom
-            git pull origin main
-            source venv/bin/activate 
-            pip install -r requirements.txt
-            sudo systemctl restart gunicorn
+            sshpass -p "$SSH_PRIVATE_KEY" ssh -o StrictHostKeyChecking=no root@$SERVER_HOST "cd /var/www/studycom && git pull"
+            
