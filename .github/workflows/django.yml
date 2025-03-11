@@ -10,19 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: install ssh keys
 
-      - name: Install sshpass
-        run: sudo apt-get install sshpass
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
+      - name: connect and pull
+        run: ssh ${{ secrets. SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/www/studycom && git pull
 
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sshpass -p "$SSH_PRIVATE_KEY" ssh -o StrictHostKeyChecking=no root@$SERVER_HOST "cd /var/www/studycom && git pull"
+      - name: cleanup
+        run: rm -rf ~/.ssh
             
